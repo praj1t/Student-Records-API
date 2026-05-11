@@ -67,3 +67,15 @@ def deletestudent(studentid: int):
             return {"message": "Student was successfully deleted"}
 
     raise HTTPException(status_code=404, detail="Student was not found")
+
+@app.put("/students/{studentid}")
+def editstudent(studentid: int, studentdata: dict):
+    students = database.open_file()
+    for i in students:
+        if i["id"] == studentid:
+            i["name"] = studentdata["name"]
+            i["marks"] = studentdata["marks"]
+            database.write_file(students)
+            return i
+
+    raise HTTPException(status_code=404, detail="Student was not found")
