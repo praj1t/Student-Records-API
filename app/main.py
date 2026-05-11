@@ -56,3 +56,14 @@ def post_funct(studentdata: dict):
     students.append(studentdata)
     database.write_file(students)
     return studentdata
+
+@app.delete("/students/{studentid}")
+def deletestudent(studentid: int):
+    students = database.open_file()
+    for i in students:
+        if i["id"] == studentid:
+            students.remove(i)
+            database.write_file(students)
+            return {"message": "Student was successfully deleted"}
+
+    raise HTTPException(status_code=404, detail="Student was not found")
