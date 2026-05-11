@@ -23,6 +23,10 @@ def averagegrade():
         "Average": average,
         "Grade": grade
     }
+@app.get("/students")
+def showstudents():
+    students = database.open_file()
+    return students
 
 @app.get("/students/{studentid}")
 def showstudents(studentid: int):
@@ -45,3 +49,10 @@ def studentreports(studentid: int):
                          "average": average, "grade": grade}
             return structure
 
+@app.post("/students")
+def post_funct(studentdata: dict):
+    students = database.open_file()
+    studentdata["id"] = utils.idgen(students)
+    students.append(studentdata)
+    database.write_file(students)
+    return studentdata
