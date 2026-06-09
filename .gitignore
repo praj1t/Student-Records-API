@@ -1,3 +1,5 @@
 .venv
 .idea
 database.json
+__pycache__/
+*.pycgit
