@@ -2,11 +2,11 @@ from fastapi import FastAPI
 from app import utils
 from app import database
 from fastapi import HTTPException
+from app.models import Student
 
 app = FastAPI()
 
 @app.get("/")
-
 def healthcheck():
     return {"message": "Student records api is currently running"}
 
@@ -50,12 +50,13 @@ def studentreports(studentid: int):
             return structure
 
 @app.post("/students")
-def post_funct(studentdata: dict):
+def post_funct(studentdata: Student):
     students = database.open_file()
-    studentdata["id"] = utils.idgen(students)
-    students.append(studentdata)
+    student_dict = studentdata.model_dump()
+    student_dict["id"] = utils.idgen(students)
+    students.append(student_dict)
     database.write_file(students)
-    return studentdata
+    return student_dict
 
 @app.delete("/students/{studentid}")
 def deletestudent(studentid: int):
@@ -69,12 +70,13 @@ def deletestudent(studentid: int):
     raise HTTPException(status_code=404, detail="Student was not found")
 
 @app.put("/students/{studentid}")
-def editstudent(studentid: int, studentdata: dict):
+def editstudent(studentid: int, studentdata: Student):
     students = database.open_file()
+    student_dict = studentdata.model_dump()
     for i in students:
         if i["id"] == studentid:
-            i["name"] = studentdata["name"]
-            i["marks"] = studentdata["marks"]
+            i["name"] = student_dict["name"]
+            i["marks"] = student_dict["marks"]
             database.write_file(students)
             return i
 
