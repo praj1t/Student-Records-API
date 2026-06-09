@@ -11,11 +11,11 @@ def average(marks):
 def gradegetter(average):
     if average >= 90:
         return "A"
-    elif average > 80:
+    elif average >= 80:
         return "B"
-    elif average > 70:
+    elif average >= 70:
         return "C"
-    elif average > 50:
+    elif average >= 50:
         return "D"
     else:
         return "F"
