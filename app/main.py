@@ -10,8 +10,6 @@ app = FastAPI()
 def healthcheck():
     return {"message": "Student records api is currently running"}
 
-
-
 @app.get("/test-report")
 def averagegrade():
     students = database.open_file()

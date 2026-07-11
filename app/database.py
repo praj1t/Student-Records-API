@@ -1,18 +1,16 @@
-import json
-from pathlib import Path
+from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker, declarative_base
+from app.config import settings
 
+engine = create_engine(settings.database_url,connect_args={"check_same_thread": False}, echo=True)
 
-def open_file():
-    if not Path("database.json").exists():
-        write_file([])
+SessionLocal = sessionmaker(bind=engine, autocommit = False, autoflush=False)
 
-    with open("database.json", 'r') as file:
-        try:
-            return json.load(file)
-        except:
-            write_file([])
-            return []
+Base = declarative_base()
 
-def write_file(students):
-    with open("database.json", 'w') as file:
-        json.dump(students, file)
+def get_db():
+    db = SessionLocal()
+    try:
+        yield db
+    finally:
+        db.close()
