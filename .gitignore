@@ -1,5 +1,7 @@
-.venv
-.idea
-database.json
+.venv/
 __pycache__/
-*.pycgit
+.pytest_cache/
+*.pyc
+student_records.db
+database.json
+.env
