@@ -10,4 +10,4 @@ class Subject(Base):
     created_at = Column(DateTime, server_default=func.now())
     updated_at = Column(DateTime, server_default=func.now(), onupdate=func.now())
     marks = relationship("Mark", back_populates="subject")
-    audit_log = relationship("GradeAuditLog", back_populates="subject")
+    audit_logs = relationship("GradeAuditLog", back_populates="subject")
