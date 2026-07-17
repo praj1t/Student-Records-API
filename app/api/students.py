@@ -12,12 +12,12 @@ def create_student(student_data: StudentCreate, db: Session = Depends(get_db)):
     created_student = student_service.create_student(db, student_data)
     return created_student
 
-@router.get("/", response_model=list[StudentResponse])
+@router.get("/", response_model=list[StudentResponse], operation_id="get_students")
 def get_students(db: Session = Depends(get_db)):
     all_students = student_service.get_students(db)
     return all_students
 
-@router.get("/{student_id}", response_model=StudentResponse)
+@router.get("/{student_id}", response_model=StudentResponse, operation_id="get_ultra_specific_student")
 def get_student_by_id(student_id: int, db: Session = Depends(get_db)):
     selected_student = student_service.get_student_by_id(db, student_id)
     if selected_student is None:
