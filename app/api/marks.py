@@ -8,7 +8,12 @@ from app.services import mark_service
 
 router = APIRouter(prefix="/students", tags=["marks"])
 
-@router.post("/{student_id}/marks", response_model=MarkResponse)
+@router.post(
+    "/{student_id}/marks",
+    response_model=MarkResponse,
+    operation_id="create_student_mark",
+    summary="Create a mark for a student",
+)
 def create_mark(student_id: int, mark_data: MarkCreate, db: Session = Depends(get_db)):
     created_mark = mark_service.create_mark(db,student_id, mark_data)
     if created_mark == "student_not_found":
@@ -20,7 +25,12 @@ def create_mark(student_id: int, mark_data: MarkCreate, db: Session = Depends(ge
     else:
         return created_mark
 
-@router.put("/{student_id}/marks/{subject_id}", response_model=MarkResponse)
+@router.put(
+    "/{student_id}/marks/{subject_id}",
+    response_model=MarkResponse,
+    operation_id="update_student_mark",
+    summary="Update a student's mark",
+)
 def update_mark(student_id: int,subject_id: int,mark_data: MarkUpdate, db: Session = Depends(get_db)):
     updated_mark = mark_service.update_mark(db, student_id, subject_id, mark_data)
     if updated_mark == "student_not_found":

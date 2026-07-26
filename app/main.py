@@ -14,11 +14,19 @@ app.include_router(marks_router)
 app.include_router(audit_logs_router)
 app.include_router(reports_router)
 
-@app.get("/")
+@app.get(
+    "/",
+    operation_id="healthcheck",
+    summary="Check API health",
+)
 def healthcheck():
     return {"message": "Student records api is currently running"}
 
-mcp = FastApiMCP(app)
+mcp = FastApiMCP(
+    app,
+    name="Student Records API",
+    description="Tools for managing students, subjects, marks, reports, and audit logs.",
+)
 
 mcp.mount_http()
 
