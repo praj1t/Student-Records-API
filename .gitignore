@@ -5,3 +5,4 @@ __pycache__/
 student_records.db
 database.json
 .env
+.idea/
