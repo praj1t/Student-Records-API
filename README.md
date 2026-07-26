@@ -17,12 +17,12 @@ Both options use the same backend and the same database.
 
 The project lets you:
 
-- creating, viewing, updating, and deleting students;
-- creating and viewing subjects;
-- adding and updating student marks;
-- generating a report with an average and letter grade;
-- keeping a history when a mark is changed;
-- allowing Claude Desktop to use the API through MCP tools.
+- create, view, update and delete students
+- create and view subjects
+- add and update student marks
+- generate a report with an average and letter grade
+- keep a history when a mark is changed
+- allow Claude Desktop to use the API through MCP tools.
 
 Right now, the project has **12 REST endpoints** and **40 passing tests across 7 test files**.
 
@@ -94,37 +94,17 @@ I separated the project this way so that the API routes would not contain all of
 
 ## Claude Desktop and MCP
 
-One of the main additions to this version was connecting the backend to Claude Desktop through MCP.
+One of the latest additions to this version was connecting the backend to Claude Desktop through MCP.
 
 Claude can discover the FastAPI operations as tools and use them to complete student-record tasks.
 
 ### Tool Discovery
-
-Add a screenshot showing the Student Records API tools inside Claude Desktop.
-
-Save the image as:
-
-```text
-docs/images/claude-desktop-tools.png
-```
 
 ![Claude Desktop showing the Student Records API tools](docs/images/claude-desktop-tools.png)
 
 *Claude Desktop discovering the FastAPI operations as MCP tools.*
 
 ### Example Claude Workflow
-
-For the second screenshot, give Claude Desktop a prompt such as:
-
-> Create a student named Maya, create Mathematics as a subject, add a score of 85, update it to 92 because the original grade was entered incorrectly, then show Maya's report and grade-change history.
-
-The screenshot should show the tool calls and the final results.
-
-Save it as:
-
-```text
-docs/images/claude-desktop-report-workflow.png
-```
 
 ![Claude Desktop using the Student Records API tools](docs/images/claude-desktop-report-workflow.png)
 
@@ -237,7 +217,7 @@ Example body:
 
 ```json
 {
-  "name": "Maya"
+  "name": "Prajit"
 }
 ```
 
@@ -294,8 +274,8 @@ Example body:
 
 ```json
 {
-  "score": 92,
-  "reason": "Corrected grading entry"
+  "score": 99,
+  "reason": "Remark results"
 }
 ```
 
@@ -307,7 +287,7 @@ Open:
 GET /students/{student_id}/report
 ```
 
-The response includes the student's marks, average, and letter grade.
+The response includes the student's marks, average and letter grade.
 
 ### 6. View the change history
 
@@ -317,7 +297,7 @@ Open:
 GET /students/{student_id}/audit-log
 ```
 
-The response shows the old score, new score, reason, and time of the update.
+The response shows the old score, new score, reason and time of the update.
 
 The same workflow can also be completed by asking Claude Desktop to use the MCP tools.
 
@@ -329,13 +309,13 @@ The project has **40 passing tests across 7 pytest files**.
 
 The tests cover areas such as:
 
-- student CRUD operations;
-- subject operations;
-- adding and updating marks;
-- report calculations;
-- audit logs;
-- invalid requests and missing records;
-- database isolation between tests.
+- student CRUD operations
+- subject operations
+- adding and updating marks
+- report calculations
+- audit logs
+- invalid requests and missing records
+- database isolation between tests
 
 Run the test suite with:
 
@@ -345,15 +325,10 @@ python -m pytest -v
 
 For API tests, FastAPI's dependency override system replaces the normal database session with a temporary SQLite database.
 
-This lets the tests use the real routes, services, repositories, and SQLAlchemy models without changing the development database.
+This lets the tests use the real routes, services, repositories and SQLAlchemy models without changing the development database.
 
 ### Test Screenshot
 
-Save the terminal screenshot as:
-
-```text
-docs/images/pytest-40-passed.png
-```
 
 <details>
 <summary>View test result</summary>
@@ -375,11 +350,9 @@ docs/images/pytest-40-passed.png
 
 ### 1. Clone the repository
 
-Replace the example URL with the real repository URL.
-
 ```bash
-git clone https://github.com/YOUR-USERNAME/YOUR-REPOSITORY.git
-cd YOUR-REPOSITORY
+git clone https://github.com/praj1t/Student-Records-API.git
+cd Student-Records-API
 ```
 
 ### 2. Create a virtual environment
@@ -432,34 +405,31 @@ Keep the server running while using Swagger UI or Claude Desktop.
 
 ## Why I Built It This Way
 
-### Keeping routes small
+### 1. Keeping routes small
 
 The route files mainly receive requests and return responses. The service and repository files handle the project logic and database work.
 
 This keeps `main.py` and the route files from becoming one large file.
 
-### Using separate subject and mark tables
+### 2. Using separate subject and mark tables
 
 Subjects are stored once and can be shared by multiple students.
 
 The `marks` table stores which student received which score in which subject.
 
-### Saving mark changes
+### 3. Saving mark changes
 
 Instead of completely losing the previous value when a mark changes, the project creates an audit-log record.
-
 This makes it possible to see what changed and why.
 
-### Testing the real API
+### 4. Testing the real API
 
 Most API tests use FastAPI's `TestClient` instead of calling the database code directly.
-
 This checks the API in a way that is closer to how someone would actually use it.
 
-### Reusing the same backend for MCP
+### 5. Reusing the same backend for MCP
 
 I did not build a second set of student-record logic for Claude Desktop.
-
 The MCP tools reuse the same FastAPI endpoints and project logic as the REST API.
 
 ---
@@ -481,13 +451,13 @@ The current version replaced the JSON file with SQLite and SQLAlchemy.
 
 It also added:
 
-- separate tables for students, subjects, marks, and audit logs;
-- Alembic migrations;
-- service and repository files;
-- student reports;
-- grade-change audit logs;
-- isolated database tests;
-- an MCP endpoint for Claude Desktop.
+- separate tables for students, subjects, marks, and audit logs
+- Alembic migrations
+- service and repository files
+- student reports
+- grade-change audit logs
+- isolated database tests
+- an MCP endpoint for Claude Desktop
 
 The main goal was to take a small beginner project and improve it step by step into a proper backend application.
 
@@ -497,13 +467,13 @@ The main goal was to take a small beginner project and improve it step by step i
 
 Through this project, I practiced:
 
-- building and organizing a FastAPI backend;
-- creating REST endpoints;
-- using Pydantic models for request validation;
-- creating relationships and rules between SQLAlchemy tables;
-- managing database changes with Alembic;
-- splitting the project into routes, services, and repositories;
-- testing API behavior with Pytest and `TestClient`;
-- using a separate temporary database during tests;
-- turning the API endpoints into MCP tools;
-- connecting a backend project to Claude Desktop.
+- building and organizing a FastAPI backend
+- creating REST endpoints
+- using Pydantic models for request validation
+- creating relationships and rules between SQLAlchemy tables
+- managing database changes with Alembic
+- splitting the project into routes, services, and repositories
+- testing API behavior with Pytest and `TestClient`
+- using a separate temporary database during tests
+- turning the API endpoints into MCP tools
+- connecting a backend project to Claude Desktop
