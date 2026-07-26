@@ -1,0 +1,18 @@
+[project]
+name = "studentreport"
+version = "0.1.0"
+requires-python = ">=3.11"
+dependencies = [
+    "fastapi>=0.136.1",
+    "pydantic-settings>=2.14.1",
+    "sqlalchemy>=2.0.51",
+    "mcp>=1.27,<2",
+    "fastapi-mcp>=0.4.0",
+]
+[tool.pytest.ini_options]
+pythonpath = ["."]
+filterwarnings = [
+      "ignore::pydantic.warnings.PydanticDeprecatedSince211",
+  ]
+
+
